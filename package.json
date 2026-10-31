@@ -1,0 +1,54 @@
+{
+  "name": "agenthub-codebase-intelligence",
+  "displayName": "AgentHub",
+  "description": "Explore code dependencies and understand files from a native VS Code sidebar.",
+  "version": "0.1.0",
+  "publisher": "your-name",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other",
+    "Visualization"
+  ],
+  "activationEvents": [
+    "onView:agenthub.sidebar"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "agenthub",
+          "title": "AgentHub",
+          "icon": "media/agenthub.svg"
+        }
+      ]
+    },
+    "views": {
+      "agenthub": [
+        {
+          "id": "agenthub.sidebar",
+          "name": "AgentHub",
+          "type": "webview"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "agenthub.refresh",
+        "title": "AgentHub: Refresh Workspace Analysis"
+      }
+    ]
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "vscode:prepublish": "npm run compile"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.85.0",
+    "@types/node": "^20.11.0",
+    "typescript": "^5.3.3"
+  }
+}
