@@ -18,6 +18,7 @@
     "agent1.ts",
     "agent2.ts",
     "agentUtils.ts",
+    "testCache.ts",
     "src/**/*.ts"
   ],
   "exclude": [
