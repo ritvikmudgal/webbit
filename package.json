@@ -1,33 +1,35 @@
 {
-  "name": "codeintel",
-  "displayName": "CodeIntel",
-  "description": "AI-powered code intelligence for VS Code using Gemini 3.5 Flash Lite",
+  "name": "webbit",
+  "displayName": "Webbit",
+  "description": "AI-powered code intelligence and architecture visualizer for VS Code using Gemini 3.5 Flash Lite",
   "version": "1.0.0",
   "engines": {
     "vscode": "^1.85.0"
   },
   "categories": [
+    "Programming Languages",
+    "Education",
     "Other"
   ],
   "activationEvents": [
-    "onCommand:codeintel.explain"
+    "onCommand:webbit.explain"
   ],
   "main": "./dist/src/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "codeintel.explain",
-        "title": "CodeIntel: Explain File"
+        "command": "webbit.explain",
+        "title": "Webbit: Explain File"
       },
       {
-        "command": "codeintel.setApiKey",
-        "title": "CodeIntel: Set API Key"
+        "command": "webbit.setApiKey",
+        "title": "Webbit: Set API Key"
       }
     ],
     "configuration": {
-      "title": "CodeIntel",
+      "title": "Webbit",
       "properties": {
-        "codeintel.aiApiKey": {
+        "webbit.aiApiKey": {
           "type": "string",
           "default": "",
           "description": "Google AI API Key for Gemini 3.5 Flash Lite (get one free at aistudio.google.com/apikey)",

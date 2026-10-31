@@ -148,7 +148,7 @@ async function runAgent2(input: AgentInput, model: GenerativeModel): Promise<str
 export async function runAgents(input: AgentInput): Promise<AgentOutput> {
   if (!input.apiKey) {
     return {
-      fileLevel: '⚠️ No API key set. Run **CodeIntel: Set API Key** first.',
+      fileLevel: '⚠️ No API key set. Run **Webbit: Set API Key** first.',
       functionLevel: '⚠️ No API key set.',
     };
   }

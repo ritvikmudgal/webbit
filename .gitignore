@@ -1,5 +1,5 @@
 # =============================================================================
-# CodeIntel / Graphwiz — .gitignore
+# Webbit — .gitignore
 # =============================================================================
 
 # Environment variables & secrets (CRITICAL: never commit API keys)

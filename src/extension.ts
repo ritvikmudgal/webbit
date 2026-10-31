@@ -1,13 +1,13 @@
 /**
  * src/extension.ts
  *
- * VS Code extension entry point for CodeIntel.
+ * VS Code extension entry point for Webbit.
  * Registers two commands:
- *   • codeintel.explain    — analyzes the active file with the two AI agents
- *   • codeintel.setApiKey  — prompts the user for their Google AI API key
+ *   • webbit.explain    — analyzes the active file with the two AI agents
+ *   • webbit.setApiKey  — prompts the user for their Google AI API key
  *
  * LLM provider: Google Gemini 3.5 Flash Lite (via @google/generative-ai)
- * API key storage: VS Code global settings under `codeintel.aiApiKey`
+ * API key storage: VS Code global settings under `webbit.aiApiKey`
  */
 
 import * as vscode from 'vscode';
@@ -29,7 +29,7 @@ import { runAgents }           from './explanation/agents';
  */
 function getApiKey(): string {
   const fromConfig = vscode.workspace
-    .getConfiguration('codeintel')
+    .getConfiguration('webbit')
     .get<string>('aiApiKey') ?? '';
   return fromConfig || process.env.GOOGLE_AI_API_KEY || '';
 }
@@ -55,7 +55,7 @@ function detectLanguage(uri: vscode.Uri): string {
 // ─── Commands ─────────────────────────────────────────────────────────────────
 
 /**
- * codeintel.explain
+ * webbit.explain
  *
  * Analyzes the currently active editor file and displays the AI output in a
  * new read-only Markdown preview panel.
@@ -63,7 +63,7 @@ function detectLanguage(uri: vscode.Uri): string {
 async function cmdExplain(): Promise<void> {
   const editor = vscode.window.activeTextEditor;
   if (!editor) {
-    vscode.window.showWarningMessage('CodeIntel: Open a file first.');
+    vscode.window.showWarningMessage('Webbit: Open a file first.');
     return;
   }
 
@@ -75,7 +75,7 @@ async function cmdExplain(): Promise<void> {
   await vscode.window.withProgress(
     {
       location:  vscode.ProgressLocation.Notification,
-      title:     'CodeIntel: Analyzing…',
+      title:     'Webbit: Analyzing…',
       cancellable: false,
     },
     async () => {
@@ -97,8 +97,8 @@ async function cmdExplain(): Promise<void> {
 
       // 4. Display the results in a new Markdown panel
       const panel = vscode.window.createWebviewPanel(
-        'codeIntelResult',
-        `CodeIntel: ${path.basename(filePath)}`,
+        'webbitResult',
+        `Webbit: ${path.basename(filePath)}`,
         vscode.ViewColumn.Beside,
         { enableScripts: false }
       );
@@ -113,25 +113,25 @@ async function cmdExplain(): Promise<void> {
 }
 
 /**
- * codeintel.setApiKey
+ * webbit.setApiKey
  *
  * Prompts the user for their Google AI API key and persists it to
- * `codeintel.aiApiKey` in VS Code's global settings.
+ * `webbit.aiApiKey` in VS Code's global settings.
  */
 async function cmdSetApiKey(): Promise<void> {
   const key = await vscode.window.showInputBox({
-    prompt:          'Enter your Google AI API key (get one free at aistudio.google.com)',
-    placeHolder:     'AIza...',
+    prompt:          'Enter your Google AI API key (get one free at aistudio.google.com/apikey)',
+    placeHolder:     'AQ...',
     password:        true,
     ignoreFocusOut:  true,
   });
   if (key === undefined) { return; }  // user cancelled
 
   await vscode.workspace
-    .getConfiguration('codeintel')
+    .getConfiguration('webbit')
     .update('aiApiKey', key, vscode.ConfigurationTarget.Global);
 
-  vscode.window.showInformationMessage('CodeIntel: API key saved ✅');
+  vscode.window.showInformationMessage('Webbit: API key saved ✅');
 }
 
 // ─── Webview HTML Builder ─────────────────────────────────────────────────────
@@ -155,17 +155,17 @@ function buildWebviewHtml(
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CodeIntel: ${esc(filename)}</title>
+  <title>Webbit: ${esc(filename)}</title>
   <style>
-    body  { font-family: var(--vscode-font-family); padding: 1rem 2rem; }
-    h1    { color: var(--vscode-titleBar-activeForeground); }
-    h2    { border-bottom: 1px solid var(--vscode-panel-border); padding-bottom: .25rem; }
-    pre   { background: var(--vscode-textCodeBlock-background); padding: .5rem; border-radius: 4px; overflow-x: auto; }
+    body  { font-family: var(--vscode-font-family); padding: 1.25rem 2rem; line-height: 1.6; }
+    h1    { color: var(--vscode-titleBar-activeForeground); display: flex; align-items: center; gap: 0.5rem; }
+    h2    { border-bottom: 1px solid var(--vscode-panel-border); padding-bottom: .35rem; margin-top: 1.5rem; }
+    pre   { background: var(--vscode-textCodeBlock-background); padding: 1rem; border-radius: 6px; overflow-x: auto; white-space: pre-wrap; font-family: var(--vscode-editor-font-family); }
     code  { font-family: var(--vscode-editor-font-family); }
   </style>
 </head>
 <body>
-  <h1>📄 ${esc(filename)}</h1>
+  <h1>🕸️ Webbit: ${esc(filename)}</h1>
   <h2>🏛️ File Role &amp; Architecture</h2>
   <pre>${esc(fileLevel)}</pre>
   <h2>🔬 Function &amp; Class Analysis</h2>
@@ -178,8 +178,8 @@ function buildWebviewHtml(
 
 export function activate(context: vscode.ExtensionContext): void {
   context.subscriptions.push(
-    vscode.commands.registerCommand('codeintel.explain',   cmdExplain),
-    vscode.commands.registerCommand('codeintel.setApiKey', cmdSetApiKey)
+    vscode.commands.registerCommand('webbit.explain',   cmdExplain),
+    vscode.commands.registerCommand('webbit.setApiKey', cmdSetApiKey)
   );
 }
 

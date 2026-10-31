@@ -8,8 +8,8 @@
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "outDir": "dist",
-    "rootDir": "",
+    "outDir": "./dist",
+    "rootDir": ".",
     "skipLibCheck": true
   },
   "include": [
