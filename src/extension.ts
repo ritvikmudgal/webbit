@@ -3,11 +3,12 @@
  *
  * VS Code extension entry point for Webbit.
  * Registers two commands:
- *   • webbit.explain    — analyzes the active file with the two AI agents
- *   • webbit.setApiKey  — prompts the user for their Google AI API key
+ *   • webbit.explain    – analyzes the active file via the LRU-cached AI pipeline
+ *   • webbit.setApiKey  – prompts the user for their Google AI API key
  *
  * LLM provider: Google Gemini 3.5 Flash Lite (via @google/generative-ai)
  * API key storage: VS Code global settings under `webbit.aiApiKey`
+ * Cache: SHA-256 content-keyed LRU cache (max 5 entries) in explanation/cache.ts
  */
 
 import * as vscode from 'vscode';
@@ -17,9 +18,7 @@ import * as dotenv from 'dotenv';
 // Attempt to load .env from workspace silently if present
 dotenv.config({ quiet: true });
 
-import { parse }               from './parser/tsParser';
-import { buildProjectContext } from './explanation/contextBuilder';
-import { runAgents }           from './explanation/agents';
+import { explainFile } from './explanation/index';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -59,6 +58,8 @@ function detectLanguage(uri: vscode.Uri): string {
  *
  * Analyzes the currently active editor file and displays the AI output in a
  * new read-only Markdown preview panel.
+ * Uses the SHA-256 LRU cache: repeated opens of the same unchanged file
+ * are served instantly (⚡) without re-running the parser or LLM.
  */
 async function cmdExplain(): Promise<void> {
   const editor = vscode.window.activeTextEditor;
@@ -74,39 +75,35 @@ async function cmdExplain(): Promise<void> {
 
   await vscode.window.withProgress(
     {
-      location:  vscode.ProgressLocation.Notification,
-      title:     'Webbit: Analyzing…',
+      location:    vscode.ProgressLocation.Notification,
+      title:       'Webbit: Analyzing…',
       cancellable: false,
     },
     async () => {
-      // 1. Parse the file (tree-sitter or regex stub)
-      const wasmDir     = path.join(__dirname, '..', 'node_modules');
-      const parseResult = await parse(content, language, wasmDir);
-
-      // 2. Build project-wide context (package.json, README snippet)
-      const projectContext = buildProjectContext(filePath);
-
-      // 3. Run both AI agents in parallel
-      const output = await runAgents({
+      // Delegates to the cached orchestrator in explanation/index.ts
+      const result = await explainFile({
         filePath,
-        parseResult,
-        projectContext,
+        content,
+        language,
         dependents: [],   // TODO: wire up reverse-dependency graph
         apiKey,
       });
 
-      // 4. Display the results in a new Markdown panel
+      // Show a ⚡ indicator in the panel title when the result came from cache
+      const cacheTag = result.fromCache ? ' ⚡ (cached)' : '';
+
       const panel = vscode.window.createWebviewPanel(
         'webbitResult',
-        `Webbit: ${path.basename(filePath)}`,
+        `Webbit: ${path.basename(filePath)}${cacheTag}`,
         vscode.ViewColumn.Beside,
         { enableScripts: false }
       );
 
       panel.webview.html = buildWebviewHtml(
         path.basename(filePath),
-        output.fileLevel,
-        output.functionLevel
+        result.fileLevel,
+        result.functionLevel,
+        result.fromCache
       );
     }
   );
@@ -120,10 +117,10 @@ async function cmdExplain(): Promise<void> {
  */
 async function cmdSetApiKey(): Promise<void> {
   const key = await vscode.window.showInputBox({
-    prompt:          'Enter your Google AI API key (get one free at aistudio.google.com/apikey)',
-    placeHolder:     'AQ...',
-    password:        true,
-    ignoreFocusOut:  true,
+    prompt:         'Enter your Google AI API key (get one free at aistudio.google.com/apikey)',
+    placeHolder:    'AQ...',
+    password:       true,
+    ignoreFocusOut: true,
   });
   if (key === undefined) { return; }  // user cancelled
 
@@ -131,7 +128,7 @@ async function cmdSetApiKey(): Promise<void> {
     .getConfiguration('webbit')
     .update('aiApiKey', key, vscode.ConfigurationTarget.Global);
 
-  vscode.window.showInformationMessage('Webbit: API key saved ✅');
+  vscode.window.showInformationMessage('Webbit: API key saved 🔑.');
 }
 
 // ─── Webview HTML Builder ─────────────────────────────────────────────────────
@@ -143,12 +140,17 @@ async function cmdSetApiKey(): Promise<void> {
 function buildWebviewHtml(
   filename:      string,
   fileLevel:     string,
-  functionLevel: string
+  functionLevel: string,
+  fromCache:     boolean
 ): string {
   const esc = (s: string): string =>
     s.replace(/&/g, '&amp;')
      .replace(/</g, '&lt;')
      .replace(/>/g, '&gt;');
+
+  const cacheNote = fromCache
+    ? '<p class="cache-note">⚡ Served from cache — no LLM call was made.</p>'
+    : '';
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -157,18 +159,20 @@ function buildWebviewHtml(
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Webbit: ${esc(filename)}</title>
   <style>
-    body  { font-family: var(--vscode-font-family); padding: 1.25rem 2rem; line-height: 1.6; }
-    h1    { color: var(--vscode-titleBar-activeForeground); display: flex; align-items: center; gap: 0.5rem; }
-    h2    { border-bottom: 1px solid var(--vscode-panel-border); padding-bottom: .35rem; margin-top: 1.5rem; }
-    pre   { background: var(--vscode-textCodeBlock-background); padding: 1rem; border-radius: 6px; overflow-x: auto; white-space: pre-wrap; font-family: var(--vscode-editor-font-family); }
-    code  { font-family: var(--vscode-editor-font-family); }
+    body        { font-family: var(--vscode-font-family); padding: 1.25rem 2rem; line-height: 1.6; }
+    h1          { color: var(--vscode-titleBar-activeForeground); display: flex; align-items: center; gap: 0.5rem; }
+    h2          { border-bottom: 1px solid var(--vscode-panel-border); padding-bottom: .35rem; margin-top: 1.5rem; }
+    pre         { background: var(--vscode-textCodeBlock-background); padding: 1rem; border-radius: 6px; overflow-x: auto; white-space: pre-wrap; font-family: var(--vscode-editor-font-family); }
+    code        { font-family: var(--vscode-editor-font-family); }
+    .cache-note { color: var(--vscode-charts-green); font-size: 0.85em; font-style: italic; margin: 0.5rem 0; }
   </style>
 </head>
 <body>
   <h1>🕸️ Webbit: ${esc(filename)}</h1>
-  <h2>🏛️ File Role &amp; Architecture</h2>
+  ${cacheNote}
+  <h2>🔍 File Role &amp; Architecture</h2>
   <pre>${esc(fileLevel)}</pre>
-  <h2>🔬 Function &amp; Class Analysis</h2>
+  <h2>⚙️ Function &amp; Class Analysis</h2>
   <pre>${esc(functionLevel)}</pre>
 </body>
 </html>`;
