@@ -9,14 +9,39 @@
   "categories": [
     "Programming Languages",
     "Education",
+    "Visualization",
     "Other"
   ],
   "activationEvents": [
-    "onCommand:webbit.explain"
+    "onView:agenthub.sidebar",
+    "onCommand:webbit.explain",
+    "onCommand:agenthub.refresh"
   ],
   "main": "./dist/src/extension.js",
   "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "agenthub",
+          "title": "Webbit",
+          "icon": "media/agenthub.svg"
+        }
+      ]
+    },
+    "views": {
+      "agenthub": [
+        {
+          "id": "agenthub.sidebar",
+          "name": "Webbit",
+          "type": "webview"
+        }
+      ]
+    },
     "commands": [
+      {
+        "command": "agenthub.refresh",
+        "title": "Webbit: Refresh Workspace Analysis"
+      },
       {
         "command": "webbit.explain",
         "title": "Webbit: Explain File"
@@ -24,6 +49,10 @@
       {
         "command": "webbit.setApiKey",
         "title": "Webbit: Set API Key"
+      },
+      {
+        "command": "webbit.openFullGraph",
+        "title": "Webbit: Open Full Dependency Graph"
       }
     ],
     "configuration": {
@@ -42,6 +71,7 @@
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
+    "test:cache": "ts-node testCache.ts",
     "agent1": "ts-node agent1.ts",
     "agent2": "ts-node agent2.ts"
   },

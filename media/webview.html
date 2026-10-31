@@ -1,0 +1,1506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src {{cspSource}} 'unsafe-inline' https://fonts.googleapis.com; font-src {{cspSource}} https://fonts.gstatic.com; script-src 'nonce-{{nonce}}' {{cspSource}} 'unsafe-eval' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; img-src {{cspSource}} data:;">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Webbit Neural Spider Web</title>
+  
+  <!-- Futuristic Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ═══════════════════════════════════════════════════════════
+       WEBBIT — SPIDER WEB THEME DESIGN SYSTEM
+       ═══════════════════════════════════════════════════════════ */
+    :root {
+      --void-black: #0a0a0f;
+      --deep-abyss: #07070b;
+      --web-cyan: #00f5ff;
+      --web-purple: #b026ff;
+      --toxic-green: #39ff14;
+      --hot-pink: #ff006e;
+      --amber-gold: #ffbe0b;
+      --crimson: #ff0040;
+      --ghost-white: #f8f9fa;
+      --panel-bg: rgba(26, 26, 46, 0.85);
+      --glass-border: rgba(0, 245, 255, 0.28);
+      --glass-border-hover: rgba(0, 245, 255, 0.65);
+      
+      --glow-cyan: 0 0 16px rgba(0, 245, 255, 0.45);
+      --glow-cyan-strong: 0 0 28px rgba(0, 245, 255, 0.85);
+      --glow-purple: 0 0 18px rgba(176, 38, 255, 0.45);
+      --glow-pink: 0 0 20px rgba(255, 0, 110, 0.65);
+      --glow-green: 0 0 22px rgba(57, 255, 20, 0.7);
+
+      --font-header: 'Orbitron', 'Rajdhani', -apple-system, sans-serif;
+      --font-sub: 'Rajdhani', -apple-system, sans-serif;
+      --font-body: 'Inter', -apple-system, sans-serif;
+      --font-mono: 'Fira Code', monospace;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: var(--void-black);
+      color: var(--ghost-white);
+      font-family: var(--font-body);
+      font-size: 12px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── Spider Web Background Pattern ─── */
+    body {
+      background: 
+        radial-gradient(circle at 50% 50%, rgba(0, 245, 255, 0.05) 0%, transparent 55%),
+        radial-gradient(circle at 50% 50%, rgba(176, 38, 255, 0.04) 0%, transparent 75%),
+        var(--void-black);
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image: 
+        repeating-radial-gradient(circle at 50% 50%, transparent 0, transparent 40px, rgba(0, 245, 255, 0.035) 40px, rgba(0, 245, 255, 0.035) 41px),
+        repeating-conic-gradient(from 0deg at 50% 50%, transparent 0deg, transparent 15deg, rgba(176, 38, 255, 0.025) 15deg, rgba(176, 38, 255, 0.025) 16deg);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ─── Layout Shell ─── */
+    .app-shell {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    /* ─── Top Web Bar ─── */
+    .top-bar {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 10px 16px;
+      background: linear-gradient(90deg, rgba(10, 10, 15, 0.95), rgba(26, 26, 46, 0.9), rgba(10, 10, 15, 0.95));
+      border-bottom: 1px solid var(--glass-border);
+      backdrop-filter: blur(20px);
+      flex-shrink: 0;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+    }
+
+    .brand-cluster {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .spider-icon-wrap {
+      position: relative;
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, rgba(0, 245, 255, 0.2), rgba(176, 38, 255, 0.2));
+      border: 1px solid var(--web-cyan);
+      display: grid;
+      place-items: center;
+      box-shadow: var(--glow-cyan);
+    }
+
+    .spider-icon-wrap svg {
+      width: 22px;
+      height: 22px;
+      fill: none;
+      stroke: var(--web-cyan);
+      stroke-width: 1.8;
+      filter: drop-shadow(0 0 4px var(--web-cyan));
+    }
+
+    .brand-title {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-title h1 {
+      font-family: var(--font-header);
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: 1.2px;
+      background: linear-gradient(135deg, var(--web-cyan), var(--web-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 12px rgba(0, 245, 255, 0.5);
+    }
+
+    .brand-title span {
+      font-family: var(--font-sub);
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      color: var(--web-purple);
+      text-transform: uppercase;
+    }
+
+    .nav-tabs {
+      display: flex;
+      gap: 6px;
+      margin-left: 12px;
+    }
+
+    .tab-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 8px;
+      background: rgba(26, 26, 46, 0.6);
+      border: 1px solid rgba(0, 245, 255, 0.2);
+      color: var(--ghost-white);
+      font-family: var(--font-sub);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.6px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .tab-btn:hover {
+      background: rgba(0, 245, 255, 0.15);
+      border-color: var(--web-cyan);
+      box-shadow: var(--glow-cyan);
+      color: #fff;
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, rgba(0, 245, 255, 0.25), rgba(176, 38, 255, 0.25));
+      border-color: var(--web-cyan);
+      box-shadow: var(--glow-cyan);
+      color: var(--web-cyan);
+    }
+
+    .search-web-wrap {
+      flex: 1;
+      max-width: 320px;
+      margin-left: auto;
+      position: relative;
+    }
+
+    .search-web-input {
+      width: 100%;
+      padding: 6px 12px 6px 32px;
+      background: rgba(10, 10, 15, 0.85);
+      border: 1px solid rgba(0, 245, 255, 0.35);
+      border-radius: 20px;
+      color: var(--ghost-white);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      outline: none;
+      transition: all 0.25s ease;
+    }
+
+    .search-web-input:focus {
+      border-color: var(--toxic-green);
+      box-shadow: var(--glow-green);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 11px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 12px;
+      color: var(--web-cyan);
+      pointer-events: none;
+    }
+
+    .top-stats {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .stat-spider-pill {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 11px;
+      background: var(--panel-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      font-size: 10px;
+      font-family: var(--font-sub);
+      font-weight: 600;
+      color: var(--ghost-white);
+    }
+
+    .stat-spider-pill b {
+      color: var(--web-cyan);
+      font-family: var(--font-mono);
+      font-size: 11px;
+    }
+
+    .btn-weave {
+      padding: 6px 14px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, var(--web-cyan), var(--web-purple));
+      border: none;
+      color: var(--void-black);
+      font-family: var(--font-header);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 0.8px;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(0, 245, 255, 0.5);
+      transition: all 0.25s ease;
+      white-space: nowrap;
+    }
+
+    .btn-weave:hover {
+      box-shadow: 0 0 25px rgba(0, 245, 255, 0.85);
+      transform: translateY(-1px);
+    }
+
+    /* ─── Main Content Splitter ─── */
+    .content-stage {
+      display: flex;
+      flex: 1;
+      position: relative;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    /* ─── Left Panel: File Analysis & Dual Agents ─── */
+    .left-panel {
+      width: 360px;
+      min-width: 300px;
+      max-width: 460px;
+      background: var(--panel-bg);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-right: 1px solid var(--glass-border);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      overflow-y: auto;
+      padding: 16px;
+      gap: 16px;
+      box-shadow: 6px 0 24px rgba(0, 0, 0, 0.6);
+      transition: width 0.3s ease;
+    }
+
+    .left-panel::-webkit-scrollbar { width: 5px; }
+    .left-panel::-webkit-scrollbar-thumb {
+      background: rgba(0, 245, 255, 0.25);
+      border-radius: 4px;
+    }
+
+    /* Section Panels */
+    .glass-card {
+      background: rgba(10, 10, 15, 0.65);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      padding: 14px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      position: relative;
+    }
+
+    .card-title-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid rgba(0, 245, 255, 0.2);
+    }
+
+    .card-title-row h3 {
+      font-family: var(--font-header);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--web-cyan);
+      text-shadow: 0 0 8px rgba(0, 245, 255, 0.4);
+    }
+
+    .spider-bullet {
+      color: var(--web-purple);
+      font-size: 13px;
+    }
+
+    .file-select-box {
+      width: 100%;
+      padding: 9px 12px;
+      background: rgba(7, 7, 11, 0.9);
+      border: 1px solid var(--glass-border);
+      border-radius: 8px;
+      color: var(--ghost-white);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      outline: none;
+      margin-bottom: 12px;
+    }
+
+    .file-select-box:focus {
+      border-color: var(--web-cyan);
+      box-shadow: var(--glow-cyan);
+    }
+
+    .action-grid {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-sub {
+      flex: 1;
+      padding: 9px 12px;
+      background: rgba(26, 26, 46, 0.8);
+      border: 1px solid var(--glass-border);
+      border-radius: 8px;
+      color: var(--ghost-white);
+      font-family: var(--font-sub);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s ease;
+    }
+
+    .btn-sub:hover {
+      background: rgba(0, 245, 255, 0.15);
+      border-color: var(--web-cyan);
+      color: var(--web-cyan);
+      box-shadow: var(--glow-cyan);
+    }
+
+    .btn-primary-glow {
+      flex: 1;
+      padding: 9px 12px;
+      background: linear-gradient(135deg, var(--web-cyan), var(--web-purple));
+      border: none;
+      border-radius: 8px;
+      color: var(--void-black);
+      font-family: var(--font-header);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 0.8px;
+      cursor: pointer;
+      text-align: center;
+      box-shadow: 0 0 16px rgba(0, 245, 255, 0.4);
+      transition: all 0.25s ease;
+    }
+
+    .btn-primary-glow:hover {
+      box-shadow: 0 0 24px rgba(0, 245, 255, 0.8);
+      transform: translateY(-1px);
+    }
+
+    /* Structural Overview */
+    .structure-summary {
+      font-size: 11px;
+      line-height: 1.6;
+      color: #cbd5e1;
+      margin-bottom: 10px;
+    }
+
+    .chip-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 6px;
+    }
+
+    .silk-chip {
+      padding: 2px 8px;
+      border-radius: 12px;
+      background: rgba(0, 245, 255, 0.12);
+      border: 1px solid rgba(0, 245, 255, 0.35);
+      color: var(--web-cyan);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      box-shadow: 0 0 6px rgba(0, 245, 255, 0.2);
+    }
+
+    /* Dual AI Agents Section */
+    .agent-pod {
+      margin-top: 12px;
+      border: 1px solid rgba(176, 38, 255, 0.4);
+      border-radius: 10px;
+      overflow: hidden;
+      background: rgba(10, 10, 15, 0.8);
+      box-shadow: 0 0 15px rgba(176, 38, 255, 0.2);
+    }
+
+    .agent-pod.agent2 {
+      border-color: rgba(0, 245, 255, 0.4);
+      box-shadow: 0 0 15px rgba(0, 245, 255, 0.2);
+    }
+
+    .agent-pod-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      background: linear-gradient(90deg, rgba(176, 38, 255, 0.25), rgba(10, 10, 15, 0.4));
+      border-bottom: 1px solid rgba(176, 38, 255, 0.3);
+      font-family: var(--font-header);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.6px;
+      color: #fff;
+    }
+
+    .agent-pod.agent2 .agent-pod-header {
+      background: linear-gradient(90deg, rgba(0, 245, 255, 0.25), rgba(10, 10, 15, 0.4));
+      border-bottom-color: rgba(0, 245, 255, 0.3);
+      color: var(--web-cyan);
+    }
+
+    .cache-tag {
+      margin-left: auto;
+      padding: 1px 7px;
+      border-radius: 10px;
+      background: rgba(57, 255, 20, 0.15);
+      border: 1px solid var(--toxic-green);
+      color: var(--toxic-green);
+      font-family: var(--font-mono);
+      font-size: 9px;
+      box-shadow: 0 0 8px rgba(57, 255, 20, 0.4);
+    }
+
+    .agent-output {
+      padding: 12px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-break: break-word;
+      color: #e2e8f0;
+      max-height: 240px;
+      overflow-y: auto;
+    }
+
+    .agent-error {
+      padding: 10px 12px;
+      background: rgba(255, 0, 64, 0.12);
+      border: 1px solid var(--crimson);
+      border-radius: 8px;
+      color: #ff8097;
+      font-size: 11px;
+      line-height: 1.5;
+      box-shadow: 0 0 12px rgba(255, 0, 64, 0.4);
+    }
+
+    /* ─── Right Panel: Cytoscape Spider Web Graph ─── */
+    .graph-stage {
+      flex: 1;
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: radial-gradient(circle at center, rgba(0, 245, 255, 0.03) 0%, transparent 70%), var(--void-black);
+    }
+
+    #cy {
+      width: 100%;
+      height: 100%;
+      display: block;
+      outline: none;
+    }
+
+    /* Spider Web Center Landmark */
+    .spider-center-hub {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 1px dashed rgba(0, 245, 255, 0.25);
+      pointer-events: none;
+      animation: spin 30s linear infinite;
+    }
+
+    /* Floating Web Controls */
+    .web-toolbar {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding: 6px;
+      background: var(--panel-bg);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+      z-index: 10;
+    }
+
+    .web-tool-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: rgba(10, 10, 15, 0.65);
+      border: 1px solid rgba(0, 245, 255, 0.25);
+      color: var(--ghost-white);
+      font-size: 14px;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .web-tool-btn:hover {
+      background: rgba(0, 245, 255, 0.25);
+      border-color: var(--web-cyan);
+      box-shadow: var(--glow-cyan);
+      color: var(--web-cyan);
+    }
+
+    /* Web Legend */
+    .web-legend {
+      position: absolute;
+      bottom: 16px;
+      left: 16px;
+      display: flex;
+      gap: 12px;
+      padding: 6px 14px;
+      background: var(--panel-bg);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      font-size: 10px;
+      font-family: var(--font-sub);
+      font-weight: 600;
+      z-index: 10;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .legend-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    /* Node Details Slide-Out Drawer (Partner's Sidebar) */
+    .web-drawer {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 330px;
+      background: var(--panel-bg);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-left: 1px solid var(--glass-border);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      z-index: 20;
+      box-shadow: -8px 0 32px rgba(0, 0, 0, 0.8);
+      animation: slideDrawer 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow-y: auto;
+    }
+
+    @keyframes slideDrawer {
+      from { transform: translateX(100%); opacity: 0; }
+      to   { transform: translateX(0);    opacity: 1; }
+    }
+
+    .drawer-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--glass-border);
+    }
+
+    .drawer-header span {
+      font-family: var(--font-header);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: var(--web-cyan);
+    }
+
+    .drawer-close {
+      background: none;
+      border: none;
+      color: var(--ghost-white);
+      font-size: 16px;
+      cursor: pointer;
+      opacity: 0.6;
+      transition: opacity 0.15s;
+    }
+
+    .drawer-close:hover { opacity: 1; color: var(--hot-pink); }
+
+    .drawer-file-badge {
+      text-align: center;
+      padding: 18px 12px;
+      background: rgba(10, 10, 15, 0.7);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      box-shadow: inset 0 0 20px rgba(0, 245, 255, 0.08);
+    }
+
+    .file-type-icon { font-size: 32px; margin-bottom: 6px; }
+    .file-type-name {
+      font-family: var(--font-header);
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+      word-break: break-all;
+    }
+
+    .file-type-path {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--web-purple);
+      word-break: break-all;
+      margin-top: 4px;
+    }
+
+    .drawer-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .dep-bucket {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .dep-bucket-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-sub);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: #fff;
+    }
+
+    .dep-count-badge {
+      margin-left: auto;
+      padding: 1px 7px;
+      border-radius: 10px;
+      background: rgba(0, 245, 255, 0.15);
+      border: 1px solid var(--web-cyan);
+      color: var(--web-cyan);
+      font-family: var(--font-mono);
+      font-size: 10px;
+    }
+
+    .dep-node-list {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      max-height: 140px;
+      overflow-y: auto;
+    }
+
+    .dep-thread-item {
+      padding: 7px 10px;
+      background: rgba(10, 10, 15, 0.6);
+      border: 1px solid rgba(0, 245, 255, 0.15);
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: #cbd5e1;
+      cursor: pointer;
+      word-break: break-all;
+      transition: all 0.15s ease;
+    }
+
+    .dep-thread-item:hover {
+      background: rgba(0, 245, 255, 0.15);
+      border-color: var(--toxic-green);
+      color: var(--toxic-green);
+      transform: translateX(3px);
+    }
+
+    .dep-empty-note {
+      font-size: 10px;
+      color: #64748b;
+      font-style: italic;
+      padding: 4px;
+    }
+
+    /* ─── Spider Loader Animation ─── */
+    .spider-loader-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(10, 10, 15, 0.85);
+      backdrop-filter: blur(10px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      z-index: 50;
+    }
+
+    .spider-loader {
+      width: 60px;
+      height: 60px;
+      border: 3px solid transparent;
+      border-top: 3px solid var(--web-cyan);
+      border-right: 3px solid var(--web-purple);
+      border-radius: 50%;
+      animation: spin 1s linear infinite, glow 2s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes glow {
+      0%, 100% { box-shadow: 0 0 10px var(--web-cyan); }
+      50% { box-shadow: 0 0 25px var(--web-purple); }
+    }
+
+    .loader-text {
+      font-family: var(--font-header);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: var(--web-cyan);
+      text-shadow: 0 0 10px var(--web-cyan);
+      animation: pulseText 1.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes pulseText {
+      from { opacity: 0.6; }
+      to   { opacity: 1; }
+    }
+
+    .hidden { display: none !important; }
+  </style>
+
+  <!-- SVG Filters for Bioluminescent Glow -->
+  <svg width="0" height="0" style="position:absolute; pointer-events:none;">
+    <defs>
+      <filter id="cyanGlow" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur" />
+        <feMerge>
+          <feMergeNode in="blur" />
+          <feMergeNode in="SourceGraphic" />
+        </feMerge>
+      </filter>
+      <linearGradient id="silkGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#00f5ff" />
+        <stop offset="100%" stop-color="#b026ff" />
+      </linearGradient>
+    </defs>
+  </svg>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Top Web Bar -->
+    <header class="top-bar">
+      <div class="brand-cluster" id="homeLogo">
+        <div class="spider-icon-wrap">
+          <svg viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="3"/>
+            <circle cx="5" cy="7" r="2"/>
+            <circle cx="19" cy="7" r="2"/>
+            <circle cx="7" cy="18" r="2"/>
+            <circle cx="17" cy="18" r="2"/>
+            <path d="M7 8l3.5 2.5m3 0L17 8M8.5 16.5L10.5 14m3 0l2 2.5"/>
+          </svg>
+        </div>
+        <div class="brand-title">
+          <h1>WEBBIT</h1>
+          <span>Neural Spider Web</span>
+        </div>
+      </div>
+
+      <nav class="nav-tabs">
+        <button class="tab-btn active" id="tabGraph">🕸️ SPIDER WEB</button>
+        <button class="tab-btn" id="tabAnalysis">⚡ DUAL AI AGENTS</button>
+      </nav>
+
+      <div class="search-web-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" class="search-web-input" placeholder="Search web nodes...">
+      </div>
+
+      <div class="top-stats">
+        <div class="stat-spider-pill">
+          <span>FILES:</span> <b id="countFiles">0</b>
+        </div>
+        <div class="stat-spider-pill">
+          <span>THREADS:</span> <b id="countThreads">0</b>
+        </div>
+        <button id="btnWeave" class="btn-weave">↻ WEAVE WEB</button>
+      </div>
+    </header>
+
+    <!-- Main Content Stage -->
+    <div class="content-stage">
+      <!-- Left Panel (Dual AI & Structural Analysis) -->
+      <aside class="left-panel" id="analysisPanel">
+        <div class="glass-card">
+          <div class="card-title-row">
+            <span class="spider-bullet">🕸️</span>
+            <h3>TARGET FILE</h3>
+          </div>
+          <select id="fileDropdown" class="file-select-box">
+            <option value="">Weaving workspace index…</option>
+          </select>
+          <div class="action-grid">
+            <button id="btnQuickScan" class="btn-sub">Structure</button>
+            <button id="btnDeepAnalyze" class="btn-primary-glow">✦ Deep AI</button>
+          </div>
+        </div>
+
+        <!-- Structural Overview -->
+        <div class="glass-card" id="structureCard">
+          <div class="card-title-row">
+            <span class="spider-bullet">⚡</span>
+            <h3>STRUCTURAL SIGNATURE</h3>
+          </div>
+          <p id="structureSummary" class="structure-summary">Select a file to inspect functions, imports, and dependent web nodes.</p>
+          <div id="funcChips" class="chip-container"></div>
+        </div>
+
+        <!-- Dual AI Agents -->
+        <div id="aiAgentsContainer" class="hidden">
+          <!-- Agent 1: Role & Architecture -->
+          <div class="agent-pod">
+            <div class="agent-pod-header">
+              <span>🏛️ AGENT 1 — ROLE &amp; ARCHITECTURE</span>
+              <span id="cacheBadge" class="cache-tag hidden">⚡ Cached</span>
+            </div>
+            <pre id="agent1Output" class="agent-output">Awaiting weave…</pre>
+          </div>
+
+          <!-- Agent 2: Function & Class Breakdown -->
+          <div class="agent-pod agent2">
+            <div class="agent-pod-header">
+              <span>🔬 AGENT 2 — FUNCTION &amp; CLASS BREAKDOWN</span>
+            </div>
+            <pre id="agent2Output" class="agent-output">Awaiting weave…</pre>
+          </div>
+        </div>
+
+        <!-- Error Card -->
+        <div id="aiErrorBox" class="agent-error hidden"></div>
+      </aside>
+
+      <!-- Right Panel: Radial Cytoscape Graph -->
+      <main class="graph-stage">
+        <div id="cy"></div>
+        <div class="spider-center-hub"></div>
+
+        <!-- Floating Toolbar -->
+        <div class="web-toolbar">
+          <button id="toolZoomIn" class="web-tool-btn" title="Zoom In">+</button>
+          <button id="toolZoomOut" class="web-tool-btn" title="Zoom Out">−</button>
+          <button id="toolFit" class="web-tool-btn" title="Fit Entire Web">⛶</button>
+          <button id="toolRadial" class="web-tool-btn" title="Spider Radial Layout">🕸️</button>
+          <button id="toolForce" class="web-tool-btn" title="Silk Force Layout">⚡</button>
+          <button id="toolReset" class="web-tool-btn" title="Reset Selection">↺</button>
+        </div>
+
+        <!-- Spider Web Legend -->
+        <div class="web-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#39ff14; box-shadow:0 0 8px #39ff14;"></div> SELECTED</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#ff006e; box-shadow:0 0 8px #ff006e;"></div> DIRECT DEPENDENT</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#ffbe0b; box-shadow:0 0 8px #ffbe0b;"></div> INDIRECT</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#00f5ff; box-shadow:0 0 8px #00f5ff;"></div> WEB THREAD</div>
+        </div>
+
+        <!-- Selected Node Details Drawer -->
+        <aside id="nodeDrawer" class="web-drawer hidden">
+          <div class="drawer-header">
+            <span>WEB NODE DETAILS</span>
+            <button id="closeDrawerBtn" class="drawer-close">✕</button>
+          </div>
+
+          <div class="drawer-file-badge">
+            <div id="drawerIcon" class="file-type-icon">📄</div>
+            <div id="drawerName" class="file-type-name">filename.ts</div>
+            <div id="drawerPath" class="file-type-path">src/filename.ts</div>
+          </div>
+
+          <div class="drawer-actions">
+            <button id="drawerOpenEditor" class="btn-sub">📂 Open Editor</button>
+            <button id="drawerDeepAnalyze" class="btn-primary-glow">⚡ Deep AI</button>
+          </div>
+
+          <div class="dep-bucket">
+            <div class="dep-bucket-header">
+              <span style="color:var(--web-cyan)">↗</span> IMPORTS
+              <span id="drawerImportsCount" class="dep-count-badge">0</span>
+            </div>
+            <div id="drawerImportsList" class="dep-node-list"></div>
+          </div>
+
+          <div class="dep-bucket">
+            <div class="dep-bucket-header">
+              <span style="color:var(--hot-pink)">↙</span> IMPORTED BY
+              <span id="drawerImportedByCount" class="dep-count-badge">0</span>
+            </div>
+            <div id="drawerImportedByList" class="dep-node-list"></div>
+          </div>
+        </aside>
+
+        <!-- Spider Weaving Loader -->
+        <div id="weaveLoader" class="spider-loader-overlay hidden">
+          <div class="spider-loader"></div>
+          <div class="loader-text">WEAVING ANALYSIS…</div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Local Cytoscape with CDN fallback -->
+  <script nonce="{{nonce}}" src="{{cytoscapeUri}}"></script>
+  <script nonce="{{nonce}}">
+    if (typeof cytoscape === 'undefined') {
+      const s = document.createElement('script');
+      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.28.1/cytoscape.min.js';
+      document.head.appendChild(s);
+    }
+  </script>
+
+  <!-- Cytoscape Spider Web Engine Logic -->
+  <script nonce="{{nonce}}">
+    const vscode = typeof acquireVsCodeApi === 'function' ? acquireVsCodeApi() : null;
+    let cy = null;
+    let rawNodes = [];
+    let rawEdges = [];
+    let selectedNodeId = null;
+    let animationFrame = null;
+    let dashOffset = 0;
+
+    const $ = (id) => document.getElementById(id);
+
+    /* ─── File extension color maps ─── */
+    const EXT_COLORS = {
+      '.tsx': '#61dafb', '.jsx': '#61dafb',
+      '.ts': '#3178c6',
+      '.js': '#f7df1e', '.mjs': '#f7df1e', '.cjs': '#f7df1e',
+      '.py': '#3776ab',
+      '.css': '#264de4', '.scss': '#cc6699',
+      '.json': '#5b9a2f', '.html': '#e44d26',
+    };
+
+    function getExtColor(path) {
+      const dot = path.lastIndexOf('.');
+      if (dot === -1) return '#00f5ff';
+      return EXT_COLORS[path.slice(dot).toLowerCase()] || '#00f5ff';
+    }
+
+    function getFileIcon(path) {
+      const ext = path.slice(path.lastIndexOf('.')).toLowerCase();
+      switch (ext) {
+        case '.tsx':
+        case '.jsx': return '⚛️';
+        case '.ts':  return '🔷';
+        case '.js':
+        case '.mjs':
+        case '.cjs': return '🟨';
+        case '.py':  return '🐍';
+        case '.css':
+        case '.scss': return '🎨';
+        case '.json': return '📋';
+        case '.html': return '🌐';
+        default:     return '📄';
+      }
+    }
+
+    function getFileName(path) {
+      return path.split('/').pop() || path;
+    }
+
+    /* ─── Initialize Cytoscape with Spider Web Theme ─── */
+    function initCytoscape() {
+      if (cy || typeof cytoscape === 'undefined') return;
+
+      cy = cytoscape({
+        container: $('cy'),
+        boxSelectionEnabled: false,
+        autounselectify: false,
+        wheelSensitivity: 0.25,
+        minZoom: 0.1,
+        maxZoom: 4,
+
+        style: [
+          /* Base Node: Glowing Void Hexagon */
+          {
+            selector: 'node',
+            style: {
+              'shape': 'hexagon',
+              'background-color': '#0a0a0f',
+              'background-opacity': 0.92,
+              'border-width': 2,
+              'border-color': '#00f5ff',
+              'border-opacity': 0.85,
+              'width': 38,
+              'height': 38,
+              'label': 'data(label)',
+              'color': '#f8f9fa',
+              'font-size': '10px',
+              'font-family': 'Orbitron, sans-serif',
+              'font-weight': 600,
+              'text-valign': 'bottom',
+              'text-margin-y': 6,
+              'text-outline-color': '#0a0a0f',
+              'text-outline-width': 2,
+              'shadow-blur': 12,
+              'shadow-color': '#00f5ff',
+              'shadow-opacity': 0.75,
+              'transition-property': 'background-color, border-color, border-width, shadow-blur, shadow-color, width, height, opacity',
+              'transition-duration': '0.25s'
+            }
+          },
+
+          /* Hover Node */
+          {
+            selector: 'node:hover',
+            style: {
+              'border-color': '#39ff14',
+              'border-width': 3,
+              'shadow-color': '#39ff14',
+              'shadow-blur': 22,
+              'width': 44,
+              'height': 44,
+              'z-index': 999
+            }
+          },
+
+          /* Selected Node: Toxic Green Power Node */
+          {
+            selector: 'node.selected',
+            style: {
+              'border-color': '#39ff14',
+              'border-width': 4,
+              'background-color': '#0e1810',
+              'shadow-color': '#39ff14',
+              'shadow-blur': 28,
+              'shadow-opacity': 0.95,
+              'width': 48,
+              'height': 48,
+              'z-index': 1000
+            }
+          },
+
+          /* Direct Dependent Node: Hot Pink */
+          {
+            selector: 'node.direct-dep',
+            style: {
+              'border-color': '#ff006e',
+              'border-width': 3,
+              'shadow-color': '#ff006e',
+              'shadow-blur': 20,
+              'width': 42,
+              'height': 42,
+              'z-index': 990
+            }
+          },
+
+          /* Indirect Dependent Node: Amber Gold */
+          {
+            selector: 'node.indirect-dep',
+            style: {
+              'border-color': '#ffbe0b',
+              'border-width': 2.5,
+              'shadow-color': '#ffbe0b',
+              'shadow-blur': 16,
+              'width': 38,
+              'height': 38,
+              'z-index': 980
+            }
+          },
+
+          /* Dimmed Node */
+          {
+            selector: 'node.dimmed',
+            style: {
+              'opacity': 0.18,
+              'shadow-opacity': 0,
+              'border-opacity': 0.2
+            }
+          },
+
+          /* Base Edge: Silk Thread Connection */
+          {
+            selector: 'edge',
+            style: {
+              'width': 1.6,
+              'curve-style': 'bezier',
+              'line-color': '#00f5ff',
+              'line-style': 'dashed',
+              'line-dash-pattern': [6, 4],
+              'opacity': 0.65,
+              'target-arrow-shape': 'triangle',
+              'target-arrow-color': '#00f5ff',
+              'arrow-scale': 0.9,
+              'shadow-blur': 6,
+              'shadow-color': '#00f5ff',
+              'shadow-opacity': 0.6,
+              'transition-property': 'line-color, target-arrow-color, width, opacity, shadow-color',
+              'transition-duration': '0.2s'
+            }
+          },
+
+          /* Edge Connected to Selected (Hot Pink Silk Flow) */
+          {
+            selector: 'edge.highlighted-direct',
+            style: {
+              'line-color': '#ff006e',
+              'target-arrow-color': '#ff006e',
+              'width': 3,
+              'opacity': 1,
+              'shadow-color': '#ff006e',
+              'shadow-blur': 14,
+              'z-index': 995
+            }
+          },
+
+          {
+            selector: 'edge.highlighted-indirect',
+            style: {
+              'line-color': '#ffbe0b',
+              'target-arrow-color': '#ffbe0b',
+              'width': 2.2,
+              'opacity': 0.85,
+              'shadow-color': '#ffbe0b',
+              'shadow-blur': 10,
+              'z-index': 985
+            }
+          },
+
+          /* Dimmed Edge */
+          {
+            selector: 'edge.dimmed',
+            style: {
+              'opacity': 0.08,
+              'shadow-opacity': 0
+            }
+          }
+        ]
+      });
+
+      /* ─── Cytoscape Events ─── */
+      cy.on('tap', 'node', function(evt) {
+        const id = evt.target.id();
+        selectNode(id);
+      });
+
+      cy.on('tap', function(evt) {
+        if (evt.target === cy) {
+          clearSelection();
+        }
+      });
+
+      // Animated Silk Flow Along Web Threads
+      startEdgeAnimation();
+    }
+
+    /* ─── 60FPS Dashed Line Flow Animation ─── */
+    function startEdgeAnimation() {
+      if (animationFrame) cancelAnimationFrame(animationFrame);
+
+      function loop() {
+        dashOffset = (dashOffset + 0.5) % 20;
+        if (cy) {
+          cy.edges().style('line-dash-offset', -dashOffset);
+        }
+        animationFrame = requestAnimationFrame(loop);
+      }
+      animationFrame = requestAnimationFrame(loop);
+    }
+
+    /* ─── Spider Web Layouts ─── */
+    function runRadialWebLayout() {
+      if (!cy || !rawNodes.length) return;
+      cy.layout({
+        name: 'concentric',
+        concentric: function(node) {
+          return node.degree(); // Most interconnected hub at the center!
+        },
+        levelWidth: function() { return 1.5; },
+        padding: 50,
+        animate: true,
+        animationDuration: 750,
+        spacingFactor: 1.25
+      }).run();
+    }
+
+    function runForceWebLayout() {
+      if (!cy || !rawNodes.length) return;
+      cy.layout({
+        name: 'cose',
+        animate: true,
+        animationDuration: 800,
+        padding: 40,
+        nodeRepulsion: function() { return 450000; },
+        idealEdgeLength: function() { return 100; },
+        edgeElasticity: function() { return 100; }
+      }).run();
+    }
+
+    /* ─── Selection & Spider Thread Highlighting ─── */
+    function clearSelection() {
+      selectedNodeId = null;
+      if (!cy) return;
+      cy.elements().removeClass('selected direct-dep indirect-dep dimmed highlighted-direct highlighted-indirect');
+      $('nodeDrawer').classList.add('hidden');
+    }
+
+    function selectNode(nodeId) {
+      if (!cy) return;
+      clearSelection();
+      selectedNodeId = nodeId;
+
+      const target = cy.getElementById(nodeId);
+      if (!target || !target.length) return;
+
+      const directOut = target.outgoers('node');
+      const directIn = target.incomers('node');
+      const directNodes = directOut.union(directIn);
+      const directEdges = target.connectedEdges();
+
+      // Indirect dependents
+      const indirectOut = directOut.outgoers('node').difference(target).difference(directNodes);
+      const indirectIn = directIn.incomers('node').difference(target).difference(directNodes);
+      const indirectNodes = indirectOut.union(indirectIn);
+      const indirectEdges = directNodes.connectedEdges().difference(directEdges);
+
+      // Apply classes
+      cy.elements().addClass('dimmed');
+      target.removeClass('dimmed').addClass('selected');
+      directNodes.removeClass('dimmed').addClass('direct-dep');
+      directEdges.removeClass('dimmed').addClass('highlighted-direct');
+      indirectNodes.removeClass('dimmed').addClass('indirect-dep');
+      indirectEdges.removeClass('dimmed').addClass('highlighted-indirect');
+
+      populateDrawer(nodeId, directOut.map(n => n.id()), directIn.map(n => n.id()));
+    }
+
+    /* ─── Slide-out Drawer Population ─── */
+    function populateDrawer(nodeId, outgoing, incoming) {
+      const name = getFileName(nodeId);
+      $('drawerIcon').textContent = getFileIcon(nodeId);
+      $('drawerName').textContent = name;
+      $('drawerPath').textContent = nodeId;
+      $('drawerImportsCount').textContent = outgoing.length;
+      $('drawerImportedByCount').textContent = incoming.length;
+
+      const outList = $('drawerImportsList');
+      outList.innerHTML = outgoing.length
+        ? outgoing.map(t => '<div class="dep-thread-item" data-jump="' + t + '">' + t + '</div>').join('')
+        : '<div class="dep-empty-note">No outgoing silk threads</div>';
+
+      const inList = $('drawerImportedByList');
+      inList.innerHTML = incoming.length
+        ? incoming.map(s => '<div class="dep-thread-item" data-jump="' + s + '">' + s + '</div>').join('')
+        : '<div class="dep-empty-note">No incoming silk threads</div>';
+
+      document.querySelectorAll('[data-jump]').forEach(el => {
+        el.onclick = () => {
+          const jumpId = el.dataset.jump;
+          selectNode(jumpId);
+          cy.animate({ center: { eles: cy.getElementById(jumpId) }, zoom: 1.4, duration: 400 });
+        };
+      });
+
+      $('drawerOpenEditor').onclick = () => {
+        if (vscode) vscode.postMessage({ type: 'open', id: nodeId });
+      };
+
+      $('drawerDeepAnalyze').onclick = () => {
+        $('fileDropdown').value = nodeId;
+        if (vscode) {
+          showWeaveLoader(true);
+          vscode.postMessage({ type: 'deep', id: nodeId });
+        }
+      };
+
+      $('nodeDrawer').classList.remove('hidden');
+    }
+
+    $('closeDrawerBtn').onclick = () => clearSelection();
+
+    /* ─── Render Graph Data into Cytoscape ─── */
+    function renderGraphData(nodesData, edgesData) {
+      rawNodes = nodesData || [];
+      rawEdges = edgesData || [];
+
+      $('countFiles').textContent = rawNodes.length;
+      $('countThreads').textContent = rawEdges.length;
+
+      // Populate file select dropdown
+      const sel = $('fileDropdown');
+      sel.innerHTML = '';
+      rawNodes.forEach(n => {
+        const opt = document.createElement('option');
+        opt.value = n.id;
+        opt.textContent = n.id;
+        sel.appendChild(opt);
+      });
+
+      initCytoscape();
+      if (!cy) return;
+
+      const elements = [];
+      rawNodes.forEach(n => {
+        elements.push({
+          group: 'nodes',
+          data: {
+            id: n.id,
+            label: getFileName(n.id)
+          }
+        });
+      });
+
+      rawEdges.forEach((e, idx) => {
+        elements.push({
+          group: 'edges',
+          data: {
+            id: 'e-' + idx,
+            source: e.source,
+            target: e.target
+          }
+        });
+      });
+
+      cy.elements().remove();
+      cy.add(elements);
+      runRadialWebLayout();
+    }
+
+    /* ─── Tool Controls ─── */
+    $('toolZoomIn').onclick = () => cy && cy.zoom(cy.zoom() * 1.25);
+    $('toolZoomOut').onclick = () => cy && cy.zoom(cy.zoom() / 1.25);
+    $('toolFit').onclick = () => cy && cy.fit(undefined, 50);
+    $('toolRadial').onclick = () => runRadialWebLayout();
+    $('toolForce').onclick = () => runForceWebLayout();
+    $('toolReset').onclick = () => {
+      clearSelection();
+      if (cy) cy.fit(undefined, 50);
+    };
+
+    /* ─── Search Bar ─── */
+    $('searchInput').oninput = (e) => {
+      const q = e.target.value.trim().toLowerCase();
+      if (!cy) return;
+      if (!q) {
+        clearSelection();
+        return;
+      }
+      const match = rawNodes.find(n => n.id.toLowerCase().includes(q));
+      if (match) {
+        selectNode(match.id);
+        cy.animate({ center: { eles: cy.getElementById(match.id) }, zoom: 1.5, duration: 350 });
+      }
+    };
+
+    /* ─── Navigation Tabs ─── */
+    $('tabGraph').onclick = () => {
+      $('tabGraph').classList.add('active');
+      $('tabAnalysis').classList.remove('active');
+      $('analysisPanel').style.display = 'none';
+      if (cy) cy.resize();
+    };
+
+    $('tabAnalysis').onclick = () => {
+      $('tabAnalysis').classList.add('active');
+      $('tabGraph').classList.remove('active');
+      $('analysisPanel').style.display = 'flex';
+      if (cy) cy.resize();
+    };
+
+    /* ─── Weave / Scan Workspace ─── */
+    $('btnWeave').onclick = () => {
+      showWeaveLoader(true);
+      if (vscode) vscode.postMessage({ type: 'scan' });
+    };
+
+    $('btnQuickScan').onclick = () => {
+      const id = $('fileDropdown').value;
+      if (id && vscode) vscode.postMessage({ type: 'analyze', id });
+    };
+
+    $('btnDeepAnalyze').onclick = () => {
+      const id = $('fileDropdown').value;
+      if (id && vscode) {
+        showWeaveLoader(true);
+        vscode.postMessage({ type: 'deep', id });
+      }
+    };
+
+    function showWeaveLoader(show) {
+      if (show) $('weaveLoader').classList.remove('hidden');
+      else $('weaveLoader').classList.add('hidden');
+    }
+
+    /* ─── VS Code Message Dispatcher ─── */
+    window.addEventListener('message', (event) => {
+      const msg = event.data;
+      showWeaveLoader(false);
+
+      if (msg.type === 'graph') {
+        renderGraphData(msg.nodes, msg.edges);
+      }
+
+      if (msg.type === 'analysis') {
+        $('structureSummary').textContent = msg.summary;
+        const chips = $('funcChips');
+        chips.innerHTML = msg.functions && msg.functions.length
+          ? msg.functions.map(fn => '<span class="silk-chip">' + fn + '</span>').join('')
+          : '<span style="color:#64748b;font-size:10px;">No detected function declarations</span>';
+
+        if (msg.deep) {
+          $('aiAgentsContainer').classList.remove('hidden');
+          $('aiErrorBox').classList.add('hidden');
+
+          if (msg.aiError) {
+            $('aiErrorBox').textContent = msg.aiError;
+            $('aiErrorBox').classList.remove('hidden');
+          } else {
+            $('agent1Output').textContent = msg.aiFileLevel || 'Pending Agent 1 response…';
+            $('agent2Output').textContent = msg.aiFuncLevel || 'Pending Agent 2 response…';
+
+            if (msg.fromCache) {
+              $('cacheBadge').classList.remove('hidden');
+            } else {
+              $('cacheBadge').classList.add('hidden');
+            }
+          }
+        }
+      }
+    });
+
+    // Auto-request initial weave on load
+    if (vscode) {
+      vscode.postMessage({ type: 'scan' });
+    }
+  </script>
+</body>
+</html>
