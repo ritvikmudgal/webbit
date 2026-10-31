@@ -1,13 +1,21 @@
 {
+<<<<<<< HEAD
   "name": "agenthub-codebase-intelligence",
   "displayName": "AgentHub",
   "description": "Explore code dependencies and understand files from a native VS Code sidebar.",
   "version": "0.1.0",
   "publisher": "your-name",
+=======
+  "name": "webbit",
+  "displayName": "Webbit",
+  "description": "AI-powered code intelligence and architecture visualizer for VS Code using Gemini 3.5 Flash Lite",
+  "version": "1.0.0",
+>>>>>>> 0a950f72bea9a343dae7d998fb296e176fa6e44f
   "engines": {
     "vscode": "^1.85.0"
   },
   "categories": [
+<<<<<<< HEAD
     "Other",
     "Visualization"
   ],
@@ -52,3 +60,56 @@
     "typescript": "^5.3.3"
   }
 }
+=======
+    "Programming Languages",
+    "Education",
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:webbit.explain"
+  ],
+  "main": "./dist/src/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "webbit.explain",
+        "title": "Webbit: Explain File"
+      },
+      {
+        "command": "webbit.setApiKey",
+        "title": "Webbit: Set API Key"
+      }
+    ],
+    "configuration": {
+      "title": "Webbit",
+      "properties": {
+        "webbit.aiApiKey": {
+          "type": "string",
+          "default": "",
+          "description": "Google AI API Key for Gemini 3.5 Flash Lite (get one free at aistudio.google.com/apikey)",
+          "scope": "application"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "agent1": "ts-node agent1.ts",
+    "agent2": "ts-node agent2.ts"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.21.0",
+    "dotenv": "^18.0.9",
+    "tree-sitter-wasms": "0.1.11",
+    "web-tree-sitter": "0.20.8"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.85.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.0"
+  }
+}
+>>>>>>> 0a950f72bea9a343dae7d998fb296e176fa6e44f

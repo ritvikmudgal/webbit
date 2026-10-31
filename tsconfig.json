@@ -1,18 +1,27 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
     "target": "ES2020",
-    "outDir": "out",
+    "module": "commonjs",
     "lib": [
       "ES2020"
     ],
-    "sourceMap": true,
-    "rootDir": "src",
     "strict": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "outDir": "./dist",
+    "rootDir": ".",
+    "skipLibCheck": true
   },
+  "include": [
+    "agent1.ts",
+    "agent2.ts",
+    "agentUtils.ts",
+    "src/**/*.ts"
+  ],
   "exclude": [
     "node_modules",
-    ".vscode-test"
+    "dist"
   ]
 }
